@@ -58,12 +58,12 @@
 ; Signature: equal-trees$(tree1, tree2, succ, fail) 
 ; Type: [Tree * Tree * [Tree ->T1] * [Pair->T2] -> T1 U T2
 ; Purpose: Determines the structure identity of a given two lists, with post-processing succ/fail
-(define leaf? (lambda (x) (not (list? x))))
-(define equal-trees$ 
- (lambda (tree1 tree2 succ fail)
-   #f;@TODO
- )
-)
+;(define leaf? (lambda (x) (not (list? x))))
+;(define equal-trees$ 
+ ;(lambda (tree1 tree2 succ fail)
+;   #f;@TODO
+; )
+;)
 
 ;;; Q2a
 ; Signature: reduce1-lzl(reducer, init, lzl) 
@@ -71,7 +71,9 @@
 ; Purpose: Returns the reduced value of the given lazy list
 (define reduce1-lzl 
   (lambda (reducer init lzl)
-   #f ;@TODO
+   (if (empty-lzl? lzl)
+       init
+       (reduce1-lzl reducer (reducer init (head lzl)) (tail lzl)))
   )
 )  
 
@@ -81,7 +83,9 @@
 ; Purpose: Returns the reduced value of the first n items in the given lazy list
 (define reduce2-lzl 
   (lambda (reducer init lzl n)
-    #f ;@TODO
+    (if (or (= n 0) (empty-lzl? lzl))
+        init
+        (reduce2-lzl reducer (reducer init (head lzl)) (tail lzl) (- n 1))) 
   )
 )  
 
@@ -91,7 +95,11 @@
 ; Purpose: Returns the reduced values of the given lazy list items as a lazy list
 (define reduce3-lzl 
   (lambda (reducer init lzl)
-    #f ;@TODO
+    (cond ((empty-lzl? lzl) init)
+          ((empty-lzl? (tail lzl)) (cons-lzl (reducer init (head lzl)) (lambda () '())))
+          (else (let ((init2 (reducer init (head lzl))))
+                 (cons-lzl init2 (lambda () (reduce3-lzl reducer init2 (tail lzl)))))))
+        
   )
 )  
  
@@ -101,7 +109,7 @@
 ; Purpose: Returns a list of integers from 'from' with 'steps' jumps
 (define integers-steps-from
   (lambda (from step)
-    #f ; @TODO
+    (cons-lzl from (lambda () (integers-steps-from (+ from step) step)))
   )
 )
 
@@ -111,6 +119,9 @@
 ; Purpose: Returns the approximations of pi as a lazy list
 (define generate-pi-approximations
   (lambda ()
-    #f ; @TODO
+    (reduce3-lzl + 0 (map-lzl (lambda (x) (/ 8 (* x (+ x 2)))) (integers-steps-from 1 4)))
+    
+    
    )
  )
+
