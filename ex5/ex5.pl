@@ -33,6 +33,8 @@ genre(4, "Fantasy").
 book("Inside The Atom", 1, 1, 500).
 book("Asimov's Guide To Shakespeare", 1, 2, 400).
 book("I, Robot", 1, 3, 450).
+book("I, Robot2", 1, 3, 4500).
+
 book("Dune", 2, 3, 550).
 book("The Well at the World's End", 3, 4, 400).
 book("The Hobbit", 4, 4, 250).
@@ -40,3 +42,23 @@ book("The Lord of the Rings", 4, 4, 1250).
 
 % You can add more facts.
 % Fill in the Purpose, Signature as requested in the instructions here
+
+% Signature: authorOfGenre(GenreName, AuthorName)/2
+% Purpose: author AuthorName has writen a book of genre GenreName.
+authorOfGenre(GenreName, AuthorName) :- genre(Genid, GenreName), author(Autid, AuthorName), book(_, Autid, Genid, _).
+
+
+
+% Signature:is_max([X|Xs], R)/2
+% Purpose: R is the maximum integer in [X|Xs].
+is_max([X|Xs], R):- is_max(Xs, X, R). %start
+% Signature:is_max([X|Xs], WK, R)/3
+% Purpose: R equals max(WK, all the items in [X|Xs])
+is_max([X|Xs], WK, R):- X > WK, is_max(Xs, X, R).
+is_max([X|Xs], WK, R):- X =< WK, is_max(Xs, WK, R).
+is_max([], R, R). %end
+
+% Signature:longestBook(Authorid, BookName)
+% Purpose: Bookname is the longest book the author with id Authorid has
+% writen
+longestBook(Authorid, BookName):- book(BookName, Authorid, _, Max), findall(Len, book(_, Authorid, _, Len), List), is_max(List, Max).
