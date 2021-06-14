@@ -50,7 +50,9 @@
 ; Purpose: Returns the concatination of the given two lists, with cont pre-processing
 (define append$
  (lambda (lst1 lst2 cont)
-   #f;@TODO
+   (if (empty? lst1)
+       (cont lst2)
+       (append$ (cdr lst1) lst2 (lambda(res)(cont (cons (car lst1)res)))))
   )
 )
 
@@ -58,12 +60,23 @@
 ; Signature: equal-trees$(tree1, tree2, succ, fail) 
 ; Type: [Tree * Tree * [Tree ->T1] * [Pair->T2] -> T1 U T2
 ; Purpose: Determines the structure identity of a given two lists, with post-processing succ/fail
-;(define leaf? (lambda (x) (not (list? x))))
-;(define equal-trees$ 
- ;(lambda (tree1 tree2 succ fail)
-;   #f;@TODO
-; )
-;)
+
+(define id (lambda (x) x))
+(define equal-trees$ 
+(lambda (tree1 tree2 succ fail)
+  (cond ((and (empty? tree1) (empty? tree2)) (succ '()))
+        ((or (empty? tree1) (empty? tree2)) (fail (cons tree1 tree2)))
+        ((and (leaf? tree1) (leaf? tree2)) (succ (cons tree1 tree2)))
+        ((or (leaf? tree1) (leaf? tree2)) (fail (cons tree1 tree2)))
+        (else (equal-trees$ (car tree1)(car tree2)
+                            (lambda(firstsub);succ
+                              (equal-trees$ (cdr tree1)(cdr tree2)
+                                            (lambda(restsub)(succ(cons firstsub restsub));succ
+                                            (lambda(pair) (fail pair)));fail
+                              (lambda (pair) (fail pair)))))))));fail
+                              
+            
+
 
 ;;; Q2a
 ; Signature: reduce1-lzl(reducer, init, lzl) 
