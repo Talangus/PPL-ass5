@@ -62,3 +62,15 @@ is_max([], R, R). %end
 % Purpose: Bookname is the longest book the author with id Authorid has
 % writen
 longestBook(Authorid, BookName):- book(BookName, Authorid, _, Max), findall(Len, book(_, Authorid, _, Len), List), is_max(List, Max).
+
+
+
+
+
+% Signature:versatileAuthor(authorName)/1
+% Purpose: Authorname is an author who wrote books in 3 genres or more
+versatileAuthor(AuthorName):- author(Authorid,AuthorName),findall(G, book(_, Authorid, G, _), List),list_to_set(List,Set),
+    length(Set,N),N>2 .
+
+
+
