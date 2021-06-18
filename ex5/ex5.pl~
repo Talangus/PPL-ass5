@@ -69,8 +69,8 @@ longestBook(Authorid, BookName):- book(BookName, Authorid, _, Max), findall(Len,
 
 % Signature:versatileAuthor(authorName)/1
 % Purpose: Authorname is an author who wrote books in 3 genres or more
-versatileAuthor(AuthorName):- author(Authorid,AuthorName),findall(G, book(_, Authorid, G, _), list),list_to_set(list,set),
-    length(set,N),N>2 .
+versatileAuthor(AuthorName):- author(Authorid,AuthorName),findall(G, book(_, Authorid, G, _), List),list_to_set(List,Set),
+    length(Set,N),N>2 .
 
 
 

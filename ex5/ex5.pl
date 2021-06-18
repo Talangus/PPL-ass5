@@ -36,6 +36,8 @@ book("I, Robot", 1, 3, 450).
 book("I, Robot2", 1, 3, 4500).
 
 book("Dune", 2, 3, 550).
+book("The Well at the World's End", 3, 1, 400).
+book("The Well at the World's End", 3, 2, 400).
 book("The Well at the World's End", 3, 4, 400).
 book("The Hobbit", 4, 4, 250).
 book("The Lord of the Rings", 4, 4, 1250).
